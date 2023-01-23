@@ -4,7 +4,8 @@ import urllib.parse
 from tkinter import *
 
 root = Tk()
-
+root.title('Stonks App')
+row1 = 3
 myLabel = Label(root, text='Stonks')
 myLabel.grid(row=0, column=0, columnspan=2, padx=20, pady=20)
 api_key = 'RZCZQLZF3628BWEB'
@@ -23,6 +24,9 @@ def main():
 
     button.grid(row=1, column=1, padx=20, pady=20)
 
+    clearb = Button(root, text='Clear', padx='30', pady='5', command=clear_all)
+    clearb.grid(row=1, column=3, padx=20, pady=20)
+
     # print(lookup('AAPL'))
 
     # print(stock_name('AAPL'))
@@ -32,12 +36,29 @@ def main():
 
 def get_price(sym):
     try:
+
+        global row1
+
         name = stock_name(sym)
         price = lookup(sym)['Global Quote']['05. price']
-        price_label = Label(root, text=name+': $'+price)
-        price_label.grid(row=3, column=0, columnspan=2)
+
+        name = Label(root, text=name, bg='#94ff57')
+        name.grid(row=row1, column=0)
+        price = Label(root, text=' $'+price, bg='#94ff57')
+        price.grid(row=row1, column=1)
+        row1 += 1
+        # clear.lift()
     except KeyError:
-        return '404 price not found!'
+        error = Label(root, text='Error! 404 price not found!', bg='red')
+        error.grid(row=row1, column=0, columnspan=2)
+        row1 += 1
+
+
+def clear_all():
+    global name
+    global price
+    name.delete(0, END)
+    price.delete(0, END)
 
 
 def lookup(x):
@@ -47,8 +68,12 @@ def lookup(x):
 
         response = requests.get(endpoint)
         return response.json()
-    except KeyError:
-        return 'Cannot find stonk!'
+    except (KeyError, IndexError):
+        global row1
+
+        error = Label(root, text='Error! 404 Stock not found!', bg='red')
+        error.grid(row=row1, column=0, columnspan=2)
+        row1 += 1
 
 
 def stock_name(m):
@@ -60,8 +85,11 @@ def stock_name(m):
 
     # Parse the JSON data returned by the API
         return response.json()['bestMatches'][0]['2. name']
-    except KeyError:
-        return '404 not found'
+    except (KeyError, IndexError):
+        global row1
+        error = Label(root, text='Error! 404 Stock not found!', bg='red')
+        error.grid(row=row1, column=0, columnspan=2)
+        row1 += 1
 
 
 if __name__ == "__main__":
