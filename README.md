@@ -10,4 +10,21 @@ In Stonks project I used python library tkinter to make a simple program with GU
 * In requirements.txt all the dependencies are listed for this Python project
 
 #### project.py
-In project.py I used the library tkinter for to make a grafical user interface 
+In project.py I used the library tkinter for to make a grafical user interface.
+There are 9 functions in project.py: main , sell, calc_price, multiply, sum_num, get_price, lookup, stock_name and error_message function.
+##### main
+Is the main function in the project from which all other functions can be executed as needed.
+##### calc_price 
+This function will calculate the total value for a specific number of shares and display it on GUI window with help of the other functions
+##### multiply
+This simple function takes two numbers and returns the multiplication result this is used to multiply the number of the shares with each share price
+##### sum_num
+This function takes two numbers and returns the summation
+##### get_price 
+This function used to get the price of a given stock symbol and returns the price of that stock from API
+##### lookup
+This function gives us all details from a given stock symbol using API
+#### stock_name
+This function used to search for a full name of company for a given stock symbol 
+#### error_message
+This function will handle all the error messages if any error is raised from the previous functions
