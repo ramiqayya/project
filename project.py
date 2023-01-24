@@ -6,6 +6,9 @@ from tkinter import *
 root = Tk()
 root.title('Stonks App')
 row1 = 3
+emsg = 0
+
+
 myLabel = Label(root, text='Stonks')
 myLabel.grid(row=0, column=0, columnspan=2, padx=20, pady=20)
 api_key = 'RZCZQLZF3628BWEB'
@@ -19,13 +22,17 @@ def main():
 
     print(symbol)
 
+    global sos
+
+    sos = 0
+
     button = Button(root, text='get price', padx='30',
                     pady='5', command=lambda: get_price(symbol.get()))
 
     button.grid(row=1, column=1, padx=20, pady=20)
 
-    clearb = Button(root, text='Clear', padx='30', pady='5', command=clear_all)
-    clearb.grid(row=1, column=3, padx=20, pady=20)
+    # clearb = Button(root, text='Clear', padx='30', pady='5', command=clear_all)
+    # clearb.grid(row=1, column=3, padx=20, pady=20)
 
     # print(lookup('AAPL'))
 
@@ -38,27 +45,52 @@ def get_price(sym):
     try:
 
         global row1
+        global name
+        global price
+        row1 = 3
+        global sos
+        global error
+        global emsg
+
+        if sos == 0:
+
+            name = Label(root)
+            name.grid(row=row1, column=0)
+            price = Label(root)
+            price.grid(row=row1, column=0)
+
+        if emsg > 0:
+
+            error.grid_forget()
+            emsg = 0
+        else:
+
+            name.grid_forget()
+            price.grid_forget()
 
         name = stock_name(sym)
         price = lookup(sym)['Global Quote']['05. price']
 
-        name = Label(root, text=name, bg='#94ff57')
+        name = Label(root, text=name, bg='#94ff57', bd=1, relief=SUNKEN)
         name.grid(row=row1, column=0)
-        price = Label(root, text=' $'+price, bg='#94ff57')
+        price = Label(root, text=' $'+price, bg='#94ff57', bd=1, relief=SUNKEN)
         price.grid(row=row1, column=1)
-        row1 += 1
+        sos = 1
+        # row1 += 1
         # clear.lift()
     except KeyError:
+
         error = Label(root, text='Error! 404 price not found!', bg='red')
         error.grid(row=row1, column=0, columnspan=2)
-        row1 += 1
+        emsg = 1
+        # row1 += 1
 
 
-def clear_all():
-    global name
-    global price
-    name.delete(0, END)
-    price.delete(0, END)
+# def clear_all():
+#     # global name
+#     # global price
+#     name.delete(0, END)
+#     price.delete(0, END)
 
 
 def lookup(x):
@@ -70,10 +102,13 @@ def lookup(x):
         return response.json()
     except (KeyError, IndexError):
         global row1
+        global error
+        global emsg
 
         error = Label(root, text='Error! 404 Stock not found!', bg='red')
         error.grid(row=row1, column=0, columnspan=2)
-        row1 += 1
+        # row1 += 1
+        emsg = 1
 
 
 def stock_name(m):
@@ -87,9 +122,12 @@ def stock_name(m):
         return response.json()['bestMatches'][0]['2. name']
     except (KeyError, IndexError):
         global row1
+        global error
+        global emsg
         error = Label(root, text='Error! 404 Stock not found!', bg='red')
         error.grid(row=row1, column=0, columnspan=2)
-        row1 += 1
+        # row1 += 1
+        emsg = 1
 
 
 if __name__ == "__main__":
