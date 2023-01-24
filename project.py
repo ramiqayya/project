@@ -53,27 +53,30 @@ def main():
 
 
 def sell():
-    global top
-    top = Toplevel()
-    stock_symbol = Label(top, text='Stock Symbol', padx=5, pady=5)
+
+    global frame2
+    frame2 = Toplevel()
+    frame2 = LabelFrame(frame2, text='Stonks App', padx=10, pady=10)
+    frame2.grid(row=0, column=0, padx=10, pady=10)
+    stock_symbol = Label(frame2, text='Stock Symbol', padx=5, pady=5)
     stock_symbol.grid(row=0, column=0, columnspan=2)
-    symbolE = Entry(top, width=20, borderwidth=5)
+    symbolE = Entry(frame2, width=20, borderwidth=5)
     symbolE.grid(row=1, column=0, columnspan=2, padx=20, pady=20)
-    stock_amount = Label(top, text='Amount', padx=5, pady=5)
+    stock_amount = Label(frame2, text='Amount', padx=5, pady=5)
     stock_amount.grid(row=0, column=2, columnspan=2)
-    amountE = Entry(top, width=20, borderwidth=5)
+    amountE = Entry(frame2, width=20, borderwidth=5)
     amountE.grid(row=1, column=2, columnspan=2, padx=20, pady=20)
     # check for name and price
 
-    calc_btn = Button(top, text='Get price', padx=30,
+    calc_btn = Button(frame2, text='Get price', padx=30,
                       pady=5, command=lambda: calc_price(symbolE.get(), amountE.get()))
     print(calc_btn)
 
-    calc_btn.grid(row=2, column=0, columnspan=2, padx=20, pady=20)
+    calc_btn.grid(row=2, column=0, columnspan=4, padx=20, pady=20)
 
 
 def calc_price(sym, amount):
-    global top
+    global frame2
     global son
 
     global s_name
@@ -95,24 +98,24 @@ def calc_price(sym, amount):
 
     if son == 0:
 
-        s_name = Label(top)
+        s_name = Label(frame2)
         s_name.grid(row=3, column=0)
-        s_name2 = Label(top)
+        s_name2 = Label(frame2)
         s_name2.grid(row=4, column=0)
 
-        s_amount = Label(top)
+        s_amount = Label(frame2)
         s_amount.grid(row=3, column=1)
-        s_amount2 = Label(top)
+        s_amount2 = Label(frame2)
         s_amount2.grid(row=4, column=1)
 
-        unit_price = Label(top)
+        unit_price = Label(frame2)
         unit_price.grid(row=3, column=2)
-        unit_label = Label(top)
+        unit_label = Label(frame2)
         unit_label.grid(row=4, column=2)
 
-        tot_val = Label(top)
+        tot_val = Label(frame2)
         tot_val.grid(row=3, column=3)
-        tot_label = Label(top)
+        tot_label = Label(frame2)
         tot_label.grid(row=4, column=3)
 
     s_name.grid_forget()
@@ -124,25 +127,25 @@ def calc_price(sym, amount):
     tot_val.grid_forget()
     tot_label.grid_forget()
 
-    s_name = Label(top, text='Stock name', padx=10, pady=10)
+    s_name = Label(frame2, text='Stock name', padx=10, pady=10)
     s_name.grid(row=3, column=0, padx=20, pady=20)
-    s_name2 = Label(top, text=nameE, padx=10, pady=10)
+    s_name2 = Label(frame2, text=nameE, padx=10, pady=10)
     s_name2.grid(row=4, column=0, padx=20, pady=20)
 
-    s_amount = Label(top, text='Stock amount', padx=10, pady=10)
+    s_amount = Label(frame2, text='Stock amount', padx=10, pady=10)
     s_amount.grid(row=3, column=1, padx=20, pady=20)
-    s_amount2 = Label(top, text=amount, padx=10, pady=10)
+    s_amount2 = Label(frame2, text=amount, padx=10, pady=10)
     s_amount2.grid(row=4, column=1, padx=20, pady=20)
 
-    unit_price = Label(top, text='Unit price', padx=10, pady=10)
+    unit_price = Label(frame2, text='Unit price', padx=10, pady=10)
     unit_price.grid(row=3, column=2, padx=20, pady=20)
     unit_label = Label(
-        top, text=f"${float(priceE):,.2f}", padx=10, pady=10)
+        frame2, text=f"${float(priceE):,.2f}", padx=10, pady=10)
     unit_label.grid(row=4, column=2, padx=20, pady=20)
 
-    tot_val = Label(top, text='Total Value', padx=10, pady=10)
+    tot_val = Label(frame2, text='Total Value', padx=10, pady=10)
     tot_val.grid(row=3, column=3, padx=20, pady=20)
-    tot_label = Label(top, text=f"${total:,.2f}", padx=10, pady=10)
+    tot_label = Label(frame2, text=f"${total:,.2f}", padx=10, pady=10)
     tot_label.grid(row=4, column=3, padx=20, pady=20)
     son = 1
 
