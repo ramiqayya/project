@@ -4,26 +4,37 @@ import requests
 import urllib.parse
 from tkinter import *
 from tkinter import messagebox
+from PIL import ImageTk, Image
 
 root = Tk()
 root.title('Stonks App')
+root.iconbitmap('./stonks_icon.ico')
+
+
 row1 = 3
 emsg = 0
 frame = LabelFrame(root, text='Stonks App', padx=10, pady=10)
 frame.grid(row=0, column=0, padx=10, pady=10)
 
-myLabel = Label(frame, text='Stonks')
-myLabel.grid(row=0, column=0, columnspan=2, padx=20, pady=20)
+stonk_img = Image.open("stonks_img.jpg")
+
+resized_image = stonk_img.resize((400, 205), Image.ANTIALIAS)
+new_image = ImageTk.PhotoImage(resized_image)
+img_label = Label(frame, image=new_image)
+img_label.grid(row=0, column=0, columnspan=3)
+
+
 api_key = 'RZCZQLZF3628BWEB'
+
+# font = Font(family="Helvetica", size=20, weight="bold")
+# label.config(font=font)
 
 
 def main():
-    # adding a frame
 
-    # Print the JSON data returned by the API
     symbol = Entry(frame, width=20, borderwidth=5)
     symbol.grid(row=1, column=0, padx=20, pady=20)
-    symbol.insert(0, 'Inser stock symbol')
+    symbol.insert(0, 'Stock Symbol')
 
     print(symbol)
 
@@ -55,20 +66,26 @@ def main():
 def sell():
 
     global frame2
-    frame2 = Toplevel()
-    frame2 = LabelFrame(frame2, text='Stonks App', padx=10, pady=10)
+    top = Toplevel()
+    top.iconbitmap('./stonks_icon.ico')
+    global font
+    font = ('Times', 12)
+
+    frame2 = LabelFrame(top, text='Stonks App',
+                        padx=10, pady=10)
     frame2.grid(row=0, column=0, padx=10, pady=10)
-    stock_symbol = Label(frame2, text='Stock Symbol', padx=5, pady=5)
+    stock_symbol = Label(frame2, text='Stock Symbol',
+                         font=font, padx=5, pady=5)
     stock_symbol.grid(row=0, column=0, columnspan=2)
-    symbolE = Entry(frame2, width=20, borderwidth=5)
+    symbolE = Entry(frame2, font=font, width=20, borderwidth=5)
     symbolE.grid(row=1, column=0, columnspan=2, padx=20, pady=20)
-    stock_amount = Label(frame2, text='Amount', padx=5, pady=5)
+    stock_amount = Label(frame2, text='Amount', font=font, padx=5, pady=5)
     stock_amount.grid(row=0, column=2, columnspan=2)
-    amountE = Entry(frame2, width=20, borderwidth=5)
+    amountE = Entry(frame2, font=font, width=20, borderwidth=5)
     amountE.grid(row=1, column=2, columnspan=2, padx=20, pady=20)
     # check for name and price
 
-    calc_btn = Button(frame2, text='Get price', padx=30,
+    calc_btn = Button(frame2, text='Calculate', font=font, padx=30,
                       pady=5, command=lambda: calc_price(symbolE.get(), amountE.get()))
     print(calc_btn)
 
@@ -127,25 +144,29 @@ def calc_price(sym, amount):
     tot_val.grid_forget()
     tot_label.grid_forget()
 
-    s_name = Label(frame2, text='Stock name', padx=10, pady=10)
+    global font
+    font = ('Times', 12)
+
+    s_name = Label(frame2, text='Stock name', font=font, padx=10, pady=10)
     s_name.grid(row=3, column=0, padx=20, pady=20)
-    s_name2 = Label(frame2, text=nameE, padx=10, pady=10)
+    s_name2 = Label(frame2, text=nameE, font=font, padx=10, pady=10)
     s_name2.grid(row=4, column=0, padx=20, pady=20)
 
-    s_amount = Label(frame2, text='Stock amount', padx=10, pady=10)
+    s_amount = Label(frame2, text='Stock amount', font=font, padx=10, pady=10)
     s_amount.grid(row=3, column=1, padx=20, pady=20)
-    s_amount2 = Label(frame2, text=amount, padx=10, pady=10)
+    s_amount2 = Label(frame2, text=amount, font=font, padx=10, pady=10)
     s_amount2.grid(row=4, column=1, padx=20, pady=20)
 
-    unit_price = Label(frame2, text='Unit price', padx=10, pady=10)
+    unit_price = Label(frame2, text='Unit price', font=font, padx=10, pady=10)
     unit_price.grid(row=3, column=2, padx=20, pady=20)
     unit_label = Label(
-        frame2, text=f"${float(priceE):,.2f}", padx=10, pady=10)
+        frame2, text=f"${float(priceE):,.2f}", font=font, padx=10, pady=10)
     unit_label.grid(row=4, column=2, padx=20, pady=20)
 
-    tot_val = Label(frame2, text='Total Value', padx=10, pady=10)
+    tot_val = Label(frame2, text='Total Value', font=font, padx=10, pady=10)
     tot_val.grid(row=3, column=3, padx=20, pady=20)
-    tot_label = Label(frame2, text=f"${total:,.2f}", padx=10, pady=10)
+    tot_label = Label(
+        frame2, text=f"${total:,.2f}", font=font, padx=10, pady=10)
     tot_label.grid(row=4, column=3, padx=20, pady=20)
     son = 1
 
