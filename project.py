@@ -157,14 +157,14 @@ def calc_price(sym, amount):
                     relief=RIDGE, padx=10, pady=10)
     s_name2.grid(row=4, column=0, padx=20, pady=20, sticky=NSEW)
 
-    s_amount = Label(frame2, text='Stock amount', font=font,
+    s_amount = Label(frame2, text='Number of shares', font=font,
                      relief=RIDGE, padx=10, pady=10)
     s_amount.grid(row=3, column=1, padx=20, pady=20, sticky=NSEW)
     s_amount2 = Label(frame2, text=amount, font=font,
                       relief=RIDGE, padx=10, pady=10)
     s_amount2.grid(row=4, column=1, padx=20, pady=20, sticky=NSEW)
 
-    unit_price = Label(frame2, text='Unit price', font=font,
+    unit_price = Label(frame2, text='Price/Share', font=font,
                        relief=RIDGE, padx=10, pady=10)
     unit_price.grid(row=3, column=2, padx=20, pady=20, sticky=NSEW)
     unit_label = Label(
