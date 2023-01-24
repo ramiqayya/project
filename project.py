@@ -32,7 +32,9 @@ api_key = 'RZCZQLZF3628BWEB'
 
 def main():
 
-    symbol = Entry(frame, width=20, borderwidth=5)
+    font = ('Times', 12)
+
+    symbol = Entry(frame, font=font, width=20, borderwidth=5)
     symbol.grid(row=1, column=0, padx=20, pady=20)
     symbol.insert(0, 'Stock Symbol')
 
@@ -44,12 +46,13 @@ def main():
     sos = 0
     son = 0
 
-    button = Button(frame, text='Get price', padx=30,
+    button = Button(frame, text='Get price', font=font, padx=30,
                     pady=5, command=lambda: get_price(symbol.get()))
 
     button.grid(row=1, column=1, padx=20, pady=20)
 
-    sellb = Button(frame, text='Calculate', padx=30, pady=5, command=sell)
+    sellb = Button(frame, text='Calculate', font=font,
+                   padx=30, pady=5, command=sell)
     sellb.grid(row=4, column=0, columnspan=2, padx=20, pady=20)
 
     # clearb = Button(root, text='Clear', padx='30', pady='5', command=clear_all)
@@ -87,7 +90,7 @@ def sell():
 
     calc_btn = Button(frame2, text='Calculate', font=font, padx=30,
                       pady=5, command=lambda: calc_price(symbolE.get(), amountE.get()))
-    print(calc_btn)
+    # print(calc_btn)
 
     calc_btn.grid(row=2, column=0, columnspan=4, padx=20, pady=20)
 
@@ -109,7 +112,7 @@ def calc_price(sym, amount):
 
         nameE = stock_name(sym)
         priceE = lookup(sym)['Global Quote']['05. price']
-        total = float(priceE)*float(amount)
+        total = multiply(float(priceE), float(amount))
     except (KeyError, IndexError, ValueError):
         error_message('Error!', 'Error! 404 Stock not found!')
 
@@ -145,33 +148,48 @@ def calc_price(sym, amount):
     tot_label.grid_forget()
 
     global font
-    font = ('Times', 12)
+    font = ('Times', 12, 'bold')
 
-    s_name = Label(frame2, text='Stock name', font=font, padx=10, pady=10)
-    s_name.grid(row=3, column=0, padx=20, pady=20)
-    s_name2 = Label(frame2, text=nameE, font=font, padx=10, pady=10)
-    s_name2.grid(row=4, column=0, padx=20, pady=20)
+    s_name = Label(frame2, text='Stock name', font=font,
+                   relief=RIDGE, padx=10, pady=10)
+    s_name.grid(row=3, column=0, padx=20, pady=20, sticky=NSEW)
+    s_name2 = Label(frame2, text=nameE, font=font,
+                    relief=RIDGE, padx=10, pady=10)
+    s_name2.grid(row=4, column=0, padx=20, pady=20, sticky=NSEW)
 
-    s_amount = Label(frame2, text='Stock amount', font=font, padx=10, pady=10)
-    s_amount.grid(row=3, column=1, padx=20, pady=20)
-    s_amount2 = Label(frame2, text=amount, font=font, padx=10, pady=10)
-    s_amount2.grid(row=4, column=1, padx=20, pady=20)
+    s_amount = Label(frame2, text='Stock amount', font=font,
+                     relief=RIDGE, padx=10, pady=10)
+    s_amount.grid(row=3, column=1, padx=20, pady=20, sticky=NSEW)
+    s_amount2 = Label(frame2, text=amount, font=font,
+                      relief=RIDGE, padx=10, pady=10)
+    s_amount2.grid(row=4, column=1, padx=20, pady=20, sticky=NSEW)
 
-    unit_price = Label(frame2, text='Unit price', font=font, padx=10, pady=10)
-    unit_price.grid(row=3, column=2, padx=20, pady=20)
+    unit_price = Label(frame2, text='Unit price', font=font,
+                       relief=RIDGE, padx=10, pady=10)
+    unit_price.grid(row=3, column=2, padx=20, pady=20, sticky=NSEW)
     unit_label = Label(
-        frame2, text=f"${float(priceE):,.2f}", font=font, padx=10, pady=10)
-    unit_label.grid(row=4, column=2, padx=20, pady=20)
+        frame2, text=f"${float(priceE):,.2f}", font=font, relief=RIDGE, padx=10, pady=10)
+    unit_label.grid(row=4, column=2, padx=20, pady=20, sticky=NSEW)
 
-    tot_val = Label(frame2, text='Total Value', font=font, padx=10, pady=10)
-    tot_val.grid(row=3, column=3, padx=20, pady=20)
+    tot_val = Label(frame2, text='Total Value', font=font,
+                    relief=RIDGE, padx=10, pady=10)
+    tot_val.grid(row=3, column=3, padx=20, pady=20, sticky=NSEW)
     tot_label = Label(
-        frame2, text=f"${total:,.2f}", font=font, padx=10, pady=10)
-    tot_label.grid(row=4, column=3, padx=20, pady=20)
+        frame2, text=f"${total:,.2f}", font=font, relief=RIDGE, padx=10, pady=10)
+    tot_label.grid(row=4, column=3, padx=20, pady=20, sticky=NSEW)
     son = 1
 
 
+def multiply(x, y):
+    return x*y
+
+
+def sum_num(x, y):
+    return x+y
+
+
 def get_price(sym):
+    font = ('Times', 12, 'bold')
     try:
 
         global row1
@@ -197,10 +215,10 @@ def get_price(sym):
         name = stock_name(sym)
         price = lookup(sym)['Global Quote']['05. price']
 
-        name = Label(frame, text=name, padx=5, pady=5,
+        name = Label(frame, text=name, font=font, padx=5, pady=5,
                      bg='#94ff57', bd=1, relief=SUNKEN)
         name.grid(row=row1, column=0)
-        price = Label(frame, text=' $'+price, padx=5, pady=5,
+        price = Label(frame, text=' $'+price, font=font, padx=5, pady=5,
                       bg='#94ff57', bd=1, relief=SUNKEN)
         price.grid(row=row1, column=1)
         sos = 1
